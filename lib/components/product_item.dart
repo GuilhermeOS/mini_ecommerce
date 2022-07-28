@@ -1,34 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:mini_ecommerce/models/cart.dart';
 import 'package:mini_ecommerce/models/product.dart';
-import 'package:mini_ecommerce/pages/product_detail_page.dart';
 import 'package:mini_ecommerce/utils/app_routes.dart';
+import 'package:provider/provider.dart';
 
 class ProductItem extends StatelessWidget {
-  final Product product;
-
-  const ProductItem({
-    Key? key,
-    required this.product,
-  }) : super(key: key);
+  const ProductItem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final product = Provider.of<Product>(
+      context,
+      listen: false,
+    );
+
+    final cart = Provider.of<Cart>(
+      context,
+      listen: false,
+    );
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         footer: GridTileBar(
           backgroundColor: Colors.black87,
-          leading: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.favorite),
-            color: Theme.of(context).accentColor,
+          leading: Consumer<Product>(
+            builder: (ctx, product, _) => IconButton(
+              onPressed: () {
+                product.toggleFavorite();
+              },
+              icon: Icon(
+                product.isFavorite ? Icons.favorite : Icons.favorite_border,
+              ),
+              color: Theme.of(context).accentColor,
+            ),
           ),
           title: Text(
             product.title,
             textAlign: TextAlign.center,
           ),
           trailing: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              cart.addItem(product);
+            },
             icon: const Icon(Icons.shopping_cart),
             color: Theme.of(context).accentColor,
           ),
