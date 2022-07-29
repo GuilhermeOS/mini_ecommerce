@@ -5,6 +5,8 @@ import 'package:mini_ecommerce/models/product_list.dart';
 import 'package:mini_ecommerce/pages/cart_page.dart';
 import 'package:mini_ecommerce/pages/orders_page.dart';
 import 'package:mini_ecommerce/pages/product_detail_page.dart';
+import 'package:mini_ecommerce/pages/product_form_page.dart';
+import 'package:mini_ecommerce/pages/product_page.dart';
 import 'package:provider/provider.dart';
 
 // IMPORT ROUTES
@@ -47,6 +49,8 @@ class MyApp extends StatelessWidget {
           AppRoutes.productDetail: ((context) => const ProductDetailPage()),
           AppRoutes.cart: ((context) => const CartPage()),
           AppRoutes.orders: ((context) => const OrdersPage()),
+          AppRoutes.products: ((context) => const ProductsPage()),
+          AppRoutes.productForm: ((context) => const ProductFormPage()),
         },
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mini_ecommerce/components/product_item.dart';
+import 'package:mini_ecommerce/components/product_grid_item.dart';
 import 'package:provider/provider.dart';
 
 import '../models/product.dart';
@@ -30,7 +30,7 @@ class ProductGrid extends StatelessWidget {
       itemBuilder: (context, index) => ChangeNotifierProvider.value(
         value: loadedProducts[index],
         // ignore: prefer_const_constructors
-        child: ProductItem(), // se botar const da ruim no favorito.
+        child: ProductGridItem(), // se botar const da ruim no favorito.
       ),
     );
   }
