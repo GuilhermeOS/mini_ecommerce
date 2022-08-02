@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mini_ecommerce/models/auth.dart';
 import 'package:mini_ecommerce/models/cart.dart';
 import 'package:mini_ecommerce/models/order_list.dart';
 import 'package:mini_ecommerce/models/product_list.dart';
+import 'package:mini_ecommerce/pages/auth_page.dart';
 import 'package:mini_ecommerce/pages/cart_page.dart';
 import 'package:mini_ecommerce/pages/orders_page.dart';
 import 'package:mini_ecommerce/pages/product_detail_page.dart';
@@ -35,6 +37,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => OrderList(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => Auth(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -45,6 +50,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Lato',
         ),
         routes: {
+          AppRoutes.auth: ((context) => const AuthPage()),
           AppRoutes.home: ((context) => const ProductsOverviewPage()),
           AppRoutes.productDetail: ((context) => const ProductDetailPage()),
           AppRoutes.cart: ((context) => const CartPage()),
