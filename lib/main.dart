@@ -3,7 +3,7 @@ import 'package:mini_ecommerce/models/auth.dart';
 import 'package:mini_ecommerce/models/cart.dart';
 import 'package:mini_ecommerce/models/order_list.dart';
 import 'package:mini_ecommerce/models/product_list.dart';
-import 'package:mini_ecommerce/pages/auth_page.dart';
+import 'package:mini_ecommerce/pages/auth_or_home_page.dart';
 import 'package:mini_ecommerce/pages/cart_page.dart';
 import 'package:mini_ecommerce/pages/orders_page.dart';
 import 'package:mini_ecommerce/pages/product_detail_page.dart';
@@ -13,9 +13,6 @@ import 'package:provider/provider.dart';
 
 // IMPORT ROUTES
 import './utils/app_routes.dart';
-
-// IMPORT PAGES APP
-import 'package:mini_ecommerce/pages/products_overview_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,16 +26,24 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ProductList(),
+          create: (_) => Auth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, ProductList>(
+          create: (_) => ProductList("", [], ""),
+          update: (ctx, auth, previous) {
+            return ProductList(
+                auth.token ?? "", previous?.items ?? [], auth.uid ?? "");
+          },
+        ),
+        ChangeNotifierProxyProvider<Auth, OrderList>(
+          create: (_) => OrderList("", [], ""),
+          update: (context, auth, previous) {
+            return OrderList(
+                auth.token ?? "", previous?.item ?? [], auth.uid ?? "");
+          },
         ),
         ChangeNotifierProvider(
           create: (_) => Cart(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => OrderList(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => Auth(),
         ),
       ],
       child: MaterialApp(
@@ -50,8 +55,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Lato',
         ),
         routes: {
-          AppRoutes.auth: ((context) => const AuthPage()),
-          AppRoutes.home: ((context) => const ProductsOverviewPage()),
+          AppRoutes.authOrHome: ((context) => const AuthOrHomePage()),
           AppRoutes.productDetail: ((context) => const ProductDetailPage()),
           AppRoutes.cart: ((context) => const CartPage()),
           AppRoutes.orders: ((context) => const OrdersPage()),

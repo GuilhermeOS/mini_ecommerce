@@ -10,7 +10,11 @@ import 'package:mini_ecommerce/models/oder.dart';
 import '../utils/constantes.dart';
 
 class OrderList with ChangeNotifier {
-  final List<Order> _items = [];
+  final String _token;
+  final String _userId;
+  List<Order> _items = [];
+
+  OrderList(this._token, this._items, this._userId);
 
   List<Order> get item {
     return [..._items];
@@ -23,8 +27,8 @@ class OrderList with ChangeNotifier {
   Future<void> loadOrders() async {
     _items.clear();
 
-    final response =
-        await http.get(Uri.parse("${Constantes.ordersBaseUrl}.json"));
+    final response = await http.get(
+        Uri.parse("${Constantes.ordersBaseUrl}/$_userId.json?auth=$_token"));
 
     if (response.body == "null") return;
 
@@ -53,7 +57,7 @@ class OrderList with ChangeNotifier {
     final date = DateTime.now();
 
     final response = await http.post(
-      Uri.parse("${Constantes.ordersBaseUrl}.json"),
+      Uri.parse("${Constantes.ordersBaseUrl}/$_userId.json?auth=$_token"),
       body: jsonEncode({
         "total": cart.totalAmount,
         "date": date.toIso8601String(),
